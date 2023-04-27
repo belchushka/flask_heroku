@@ -1,4 +1,4 @@
-from flask import Flask, Response, send_file, request
+from flask import Flask, send_file, request
 from kerykeion import KrInstance, MakeSvgInstance
 
 
@@ -33,3 +33,6 @@ def get_image():
 
     # Return the SVG image as a response
     return send_file(svg_instance.chartname, mimetype='image/svg+xml')
+
+if __name__ == '__main__':
+ app.run(debug=True,host='0.0.0.0', port=3000)
