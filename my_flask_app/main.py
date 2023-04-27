@@ -1,6 +1,6 @@
+from os import walk
 from flask import Flask, send_file, request
 from kerykeion import KrInstance, MakeSvgInstance
-from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -29,7 +29,12 @@ def get_image():
 
     svg_instance.makeSVG()
 
-    return send_file(svg_instance.chartname, mimetype='image/svg+xml')
+    dir = './natals/'+ svg_instance.name+'.png'
+    
+
+    cairosvg.svg2pdf(url=svg_instance.chartname, write_to=dir)
+
+    return send_file(dir, mimetype='image/png')
 
 if __name__ == '__main__':
  app.run(debug=True,host='0.0.0.0', port=3000)
