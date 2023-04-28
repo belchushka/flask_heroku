@@ -1,6 +1,9 @@
 from os import walk
 from flask import Flask, send_file, request
 from kerykeion import KrInstance, MakeSvgInstance
+from flask_cors import CORS
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
 
 app = Flask(__name__)
 
@@ -29,11 +32,12 @@ def get_image():
 
     svg_instance.makeSVG()
 
-    dir = './natals/'+ svg_instance.name+'.png'
+    drawing = svg2rlg(svg_instance.chartname)
+
+    dir = './natals/'+svg_instance.name+'.png'
+
+    renderPM.drawToFile(drawing, dir, fmt='PNG')
     
-
-    cairosvg.svg2pdf(url=svg_instance.chartname, write_to=dir)
-
     return send_file(dir, mimetype='image/png')
 
 if __name__ == '__main__':
